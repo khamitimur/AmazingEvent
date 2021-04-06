@@ -8,7 +8,7 @@ final class AmazingEventSubscriberMock<T> {
     
     // MARK: - Methods
     
-    func handleAction(sender: AnyObject, parameter: T) {
+    func handleAction(sender: AnyObject?, parameter: T) {
         invokedHandleAction = true
         invokedHandleActionSender = sender
         invokedHandleActionParameter = parameter

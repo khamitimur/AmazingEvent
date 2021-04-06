@@ -2,6 +2,7 @@ public protocol IAmazingEventSubscriber: AnyObject {
     
     // MARK: - Methods
     
+    /// Unsubscribes from associated event.
     func unsubscribe()
 }
 
@@ -13,31 +14,31 @@ internal protocol IAmazingEventHandler: AnyObject {
     
     // MARK: - Methods
     
-    func handle(sender: AnyObject, parameter: Any)
+    func handle(sender: AnyObject?, parameter: Any)
 }
 
 final class AmazingEventSubscriber<Target: AnyObject, Parameter: Any>: IAmazingEventSubscriber, IAmazingEventHandler {
     
     // MARK: - Type Aliases
     
-    public typealias HandleAction = (Target) -> (AnyObject, Parameter) -> Void
+    public typealias HandleFunction = (Target) -> (AnyObject?, Parameter) -> Void
     
     // MARK: - Private Properties
     
     private weak var event: AmazingEvent<Parameter>?
     private weak var target: Target?
     
-    private let handleAction: HandleAction
+    private let handleFunction: HandleFunction
     
     // MARK: - Initializers
     
     internal init(event: AmazingEvent<Parameter>,
                   target: Target,
-                  handleAction: @escaping HandleAction) {
+                  handleFunction: @escaping HandleFunction) {
         self.event = event
         self.target = target
         
-        self.handleAction = handleAction
+        self.handleFunction = handleFunction
     }
     
     // MARK: - IAmazingEventSubscriber
@@ -52,9 +53,9 @@ final class AmazingEventSubscriber<Target: AnyObject, Parameter: Any>: IAmazingE
         target != nil
     }
     
-    func handle(sender: AnyObject, parameter: Any) {
+    func handle(sender: AnyObject?, parameter: Any) {
         guard let target = target else { return }
         
-        handleAction(target)(sender, parameter as! Parameter)
+        handleFunction(target)(sender, parameter as! Parameter)
     }
 }

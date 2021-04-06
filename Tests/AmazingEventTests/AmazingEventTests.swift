@@ -24,7 +24,7 @@ final class AmazingEventTests: XCTestCase {
         let event = AmazingEvent<Int>()
         
         // when
-        event.subscribe(target: subscriberMock, handleAction: AmazingEventSubscriberMock.handleAction)
+        event.subscribe(target: subscriberMock, handleFunction: AmazingEventSubscriberMock.handleAction)
         event.invoke(sender: self, parameter: parameter)
         
         // then
@@ -41,7 +41,7 @@ final class AmazingEventTests: XCTestCase {
         let event = AmazingEvent<Int>()
         
         // when
-        let subscriber = event.subscribe(target: subscriberMock, handleAction: AmazingEventSubscriberMock.handleAction)
+        let subscriber = event.subscribe(target: subscriberMock, handleFunction: AmazingEventSubscriberMock.handleAction)
         
         subscriber.unsubscribe()
         

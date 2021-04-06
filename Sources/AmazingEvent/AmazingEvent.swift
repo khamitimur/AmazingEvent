@@ -2,7 +2,7 @@ public final class AmazingEvent<Parameter: Any> {
     
     // MARK: - Type Aliases
     
-    public typealias HandleFunction = (AnyObject, Parameter) -> Void
+    public typealias HandleFunction = (AnyObject?, Parameter) -> Void
     
     // MARK: - Private Properties
     
@@ -20,8 +20,8 @@ public final class AmazingEvent<Parameter: Any> {
     
     @discardableResult
     public func subscribe<Target: AnyObject>(target: Target,
-                                             handleAction: @escaping (Target) -> (AnyObject, Parameter) -> Void) -> IAmazingEventSubscriber {
-        let eventSubscriber = AmazingEventSubscriber(event: self, target: target, handleAction: handleAction)
+                                             handleFunction: @escaping (Target) -> (AnyObject?, Parameter) -> Void) -> IAmazingEventSubscriber {
+        let eventSubscriber = AmazingEventSubscriber(event: self, target: target, handleFunction: handleFunction)
         
         handlers.append(eventSubscriber)
         
@@ -34,7 +34,7 @@ public final class AmazingEvent<Parameter: Any> {
     
     // MARK: - Internal Methods
     
-    internal func invoke(sender: AnyObject, parameter: Parameter) {
+    internal func invoke(sender: AnyObject?, parameter: Parameter) {
         handlers = handlers.filter { $0.canHandle }
         
         handlers.forEach { $0.handle(sender: sender, parameter: parameter) }
