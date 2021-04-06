@@ -16,7 +16,7 @@ internal protocol IAmazingEventHandler: AnyObject {
     func handle(sender: AnyObject, parameter: Any)
 }
 
-public final class AmazingEventSubscriber<Target: AnyObject, Parameter: Any>: IAmazingEventSubscriber, IAmazingEventHandler {
+final class AmazingEventSubscriber<Target: AnyObject, Parameter: Any>: IAmazingEventSubscriber, IAmazingEventHandler {
     
     // MARK: - Type Aliases
     

@@ -18,8 +18,9 @@ public final class AmazingEvent<Parameter: Any> {
     
     // MARK: - Public Methods
     
+    @discardableResult
     public func subscribe<Target: AnyObject>(target: Target,
-                                             handleAction: @escaping (Target) -> (AnyObject, Parameter) -> Void) -> AmazingEventSubscriber<Target, Parameter> {
+                                             handleAction: @escaping (Target) -> (AnyObject, Parameter) -> Void) -> IAmazingEventSubscriber {
         let eventSubscriber = AmazingEventSubscriber(event: self, target: target, handleAction: handleAction)
         
         handlers.append(eventSubscriber)
