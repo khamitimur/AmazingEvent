@@ -1,8 +1,9 @@
+/// Event subscriber.
 public protocol IAmazingEventSubscriber: AnyObject {
     
     // MARK: - Methods
     
-    /// Unsubscribes from associated event.
+    /// Unsubscribes from the event.
     func unsubscribe()
 }
 

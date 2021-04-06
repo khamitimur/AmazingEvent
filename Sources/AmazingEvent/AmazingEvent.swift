@@ -18,6 +18,10 @@ public final class AmazingEvent<Parameter: Any> {
     
     // MARK: - Public Methods
     
+    /// Subscribes to the event and returns subscriber.
+    /// - Parameters:
+    ///   - target: Object that owns an event handle function.
+    ///   - handleFunction: Event handle function.
     @discardableResult
     public func subscribe<Target: AnyObject>(target: Target,
                                              handleFunction: @escaping (Target) -> (AnyObject?, Parameter) -> Void) -> IAmazingEventSubscriber {
@@ -28,6 +32,8 @@ public final class AmazingEvent<Parameter: Any> {
         return eventSubscriber
     }
     
+    /// Subscribes to the event.
+    /// - Parameter handleFunction: Event handle function.
     public func subscribe(handleFunction: @escaping HandleFunction) {
         handleFunctions.append(handleFunction)
     }
