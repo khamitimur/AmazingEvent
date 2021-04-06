@@ -15,10 +15,6 @@ let package = Package(
             name: "AmazingEvent",
             targets: ["AmazingEvent"]),
     ],
-    dependencies: [
-        .package(url: "https://github.com/khamitimur/AmazingWeakSequence",
-                 .upToNextMajor(from: "1.2.0"))
-    ],
     targets: [
         .target(
             name: "AmazingEvent",
