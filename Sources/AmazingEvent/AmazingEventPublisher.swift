@@ -16,3 +16,12 @@ public final class AmazingEventPublisher<Parameter: Any> {
         event.invoke(sender: sender, parameter: parameter)
     }
 }
+
+public extension AmazingEventPublisher where Parameter == Void {
+    
+    // MARK: - Methods
+    
+    func invoke(sender: AnyObject) {
+        self.invoke(sender: sender, parameter: ())
+    }
+}

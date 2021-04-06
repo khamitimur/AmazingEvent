@@ -15,11 +15,14 @@ let package = Package(
             name: "AmazingEvent",
             targets: ["AmazingEvent"]),
     ],
+    dependencies: [
+        
+    ],
     targets: [
         .target(
             name: "AmazingEvent",
             dependencies: [
-                "AmazingWeakSequence"
+                
             ]),
         .testTarget(
             name: "AmazingEventTests",
