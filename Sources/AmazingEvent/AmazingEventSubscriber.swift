@@ -22,24 +22,24 @@ final class AmazingEventSubscriber<Target: AnyObject, Parameter: Any>: IAmazingE
     
     // MARK: - Type Aliases
     
-    public typealias HandleFunction = (Target) -> (AnyObject?, Parameter) -> Void
+    public typealias HandleAction = (Target) -> (AnyObject?, Parameter) -> Void
     
     // MARK: - Private Properties
     
     private weak var event: AmazingEvent<Parameter>?
     private weak var target: Target?
     
-    private let handleFunction: HandleFunction
+    private let handleAction: HandleAction
     
     // MARK: - Initializers
     
     internal init(event: AmazingEvent<Parameter>,
                   target: Target,
-                  handleFunction: @escaping HandleFunction) {
+                  handleAction: @escaping HandleAction) {
         self.event = event
         self.target = target
         
-        self.handleFunction = handleFunction
+        self.handleAction = handleAction
     }
     
     // MARK: - IAmazingEventSubscriber
@@ -57,6 +57,6 @@ final class AmazingEventSubscriber<Target: AnyObject, Parameter: Any>: IAmazingE
     func handle(sender: AnyObject?, parameter: Any) {
         guard let target = target else { return }
         
-        handleFunction(target)(sender, parameter as! Parameter)
+        handleAction(target)(sender, parameter as! Parameter)
     }
 }

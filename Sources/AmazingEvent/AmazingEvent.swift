@@ -7,13 +7,11 @@ public final class AmazingEvent<Parameter: Any> {
     // MARK: - Private Properties
     
     private var handlers: ContiguousArray<IAmazingEventHandler>
-    private var handleFunctions: ContiguousArray<HandleFunction>
     
     // MARK: - Initializers
     
     public init() {
         handlers = ContiguousArray<IAmazingEventHandler>()
-        handleFunctions = ContiguousArray<HandleFunction>()
     }
     
     // MARK: - Public Methods
@@ -24,18 +22,12 @@ public final class AmazingEvent<Parameter: Any> {
     ///   - handleFunction: Event handle function.
     @discardableResult
     public func subscribe<Target: AnyObject>(target: Target,
-                                             handleFunction: @escaping (Target) -> (AnyObject?, Parameter) -> Void) -> IAmazingEventSubscriber {
-        let eventSubscriber = AmazingEventSubscriber(event: self, target: target, handleFunction: handleFunction)
+                                             handleAction: @escaping (Target) -> (AnyObject?, Parameter) -> Void) -> IAmazingEventSubscriber {
+        let eventSubscriber = AmazingEventSubscriber(event: self, target: target, handleAction: handleAction)
         
         handlers.append(eventSubscriber)
         
         return eventSubscriber
-    }
-    
-    /// Subscribes to the event.
-    /// - Parameter handleFunction: Event handle function.
-    public func subscribe(handleFunction: @escaping HandleFunction) {
-        handleFunctions.append(handleFunction)
     }
     
     // MARK: - Internal Methods
@@ -44,8 +36,6 @@ public final class AmazingEvent<Parameter: Any> {
         handlers = handlers.filter { $0.canHandle }
         
         handlers.forEach { $0.handle(sender: sender, parameter: parameter) }
-        
-        handleFunctions.forEach { $0(sender, parameter) }
     }
     
     internal func unsubscribe(eventHandler: IAmazingEventHandler) {

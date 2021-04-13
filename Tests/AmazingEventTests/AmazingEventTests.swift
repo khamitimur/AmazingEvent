@@ -16,63 +16,38 @@ final class AmazingEventTests: XCTestCase {
 
     // MARK: - Tests
     
-    func test_subscribe_whenHandleAction() {
+    func test_subscribe() {
         // given
         let parameter: Int = 5
         
-        let subscriberMock = AmazingEventSubscriberMock<Int>()
+        let eventTarget = AmazingEventTarget<Int>()
         let event = AmazingEvent<Int>()
         
         // when
-        event.subscribe(target: subscriberMock, handleFunction: AmazingEventSubscriberMock.handleAction)
+        event.subscribe(target: eventTarget, handleAction: AmazingEventTarget.handle)
         event.invoke(sender: self, parameter: parameter)
         
         // then
-        XCTAssertTrue(subscriberMock.invokedHandleAction)
-        XCTAssertTrue(subscriberMock.invokedHandleActionSender! === self)
-        XCTAssertEqual(subscriberMock.invokedHandleActionParameter, parameter)
+        XCTAssertTrue(eventTarget.invokedHandle)
+        XCTAssertTrue(eventTarget.invokedHandleSender! === self)
+        XCTAssertEqual(eventTarget.invokedHandleParameter, parameter)
     }
     
     func test_unsubscribe() {
         // given
         let parameter: Int = 5
         
-        let subscriberMock = AmazingEventSubscriberMock<Int>()
+        let eventTarget = AmazingEventTarget<Int>()
         let event = AmazingEvent<Int>()
         
         // when
-        let subscriber = event.subscribe(target: subscriberMock, handleFunction: AmazingEventSubscriberMock.handleAction)
+        let subscriber = event.subscribe(target: eventTarget, handleAction: AmazingEventTarget.handle)
         
         subscriber.unsubscribe()
         
         event.invoke(sender: self, parameter: parameter)
         
         // then
-        XCTAssertFalse(subscriberMock.invokedHandleAction)
-    }
-    
-    func test_subscribe_whenHandleFunction() {
-        // given
-        let parameter: Int = 5
-        
-        let event = AmazingEvent<Int>()
-        
-        var invokedHandleFunction: Bool!
-        var invokedHandleFunctionSender: AnyObject!
-        var invokedHandleFunctionParameter: Int!
-        
-        // when
-        event.subscribe { sender, parameter in
-            invokedHandleFunction = true
-            invokedHandleFunctionSender = sender
-            invokedHandleFunctionParameter = parameter
-        }
-        
-        event.invoke(sender: self, parameter: parameter)
-        
-        // then
-        XCTAssertTrue(invokedHandleFunction)
-        XCTAssertTrue(invokedHandleFunctionSender === self)
-        XCTAssertEqual(invokedHandleFunctionParameter, parameter)
+        XCTAssertFalse(eventTarget.invokedHandle)
     }
 }
