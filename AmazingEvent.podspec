@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "AmazingEvent"
-  spec.version      = "1.0.0"
+  spec.version      = "2.0.0"
   spec.summary      = "Generic and retention cycle free Event that enables instance of any type to notify multiple classes when something of interest occurs."
 
   spec.homepage     = "https://github.com/khamitimur/AmazingEvent"
